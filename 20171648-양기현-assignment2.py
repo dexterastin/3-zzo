@@ -6,7 +6,7 @@ while 1:
         pass
 
     if not str(n).isdigit():
-        print("Is not amniotic fluid")
+        print("Is not positive number")
         continue
         pass
 
