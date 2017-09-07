@@ -6,7 +6,7 @@ while 1:
         pass
 
     if not str(n).isdigit():
-        print("Please enter your value.")
+        print("Please enter value correctly.")
         continue
         pass
 
