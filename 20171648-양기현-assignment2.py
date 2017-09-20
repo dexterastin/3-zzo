@@ -1,13 +1,15 @@
 while 1:
-    n = int(input("Enter a number: "))
+    n = input("Enter a number: ")
+
+    if not n.isdigit() and n != "-1":
+        print("Please enter value correctly.")
+        continue
+        pass
+
+    n = int(n)
 
     if n == -1:
         break
-        pass
-
-    if not str(n).isdigit():
-        print("Please enter value correctly.")
-        continue
         pass
 
     factorial = 1
@@ -17,4 +19,3 @@ while 1:
         pass
 
     print("%d! = %d" % (n, factorial))
-    pass
