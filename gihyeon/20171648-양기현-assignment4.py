@@ -34,7 +34,7 @@ while True:
 
         r = int(input("Enter m: "))
         
-        if n < 0 or m < 0:
+        if n < 0 or r < 0:
             print("양수를 입력해주세요")
             continue
 
