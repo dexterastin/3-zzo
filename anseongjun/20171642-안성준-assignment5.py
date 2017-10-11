@@ -6,25 +6,25 @@ def refibo(n):
     return refibo(n-1)+refibo(n-2)
 
 def iterfibo(n):
-    if n<=1:
-        return n
-    elif n>=2:
-        a=0
-        b=1
-        c=1
-        for i in range(n):
-            a=b+c
-            c=b
-            b=a
-        return a
-
+    if n<=2:
+        return 1
+    elif n>=3:
+        sum=0
+        f1=1
+        f2=1
+        for i in range(n-2):
+            sum=f1+f2
+            f2=f1
+            f1=sum
+        return sum
+n=int(input("enter a number:"))
 start=time.time()
-refibo(int(input("재귀피보나치함수=")))
+refibo(n)
 end=time.time()
-print("재귀피보나치함수 시간=",end-start)
+print(refibo(n),"재귀피보나치함수 시간=",end-start)
+
 
 start2=time.time()
-iterfibo(int(input("반복문피보나치함수=")))
+iterfibo(n)
 end2=time.time()
-print("반복문피보나치함수 시간=",end2-start2)
-
+print(iterfibo(n),"반복문피보나치함수 시간=",format(end2-start2, '.18f'))
