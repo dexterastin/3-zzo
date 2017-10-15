@@ -50,18 +50,16 @@ def doScoreDB(scdb):
 
 
 			elif parse[0] == 'del':
-				count = 0
-				for a in range(len(scdb)):
-					for b in range(len(scdb)-a):
-						for b in scdb:
-							if b['Name'] == parse[1]:
-								scdb.remove(b)
-							else:
-								count = count +1
-				if count > len(scdb):
-					print("No exist Data")
-				else:
-					pass
+                                count = 0
+                                while True:
+                                        if (count==len(scdb)):
+                                                break
+                                        else:
+                                                for a in scdb:
+                                                        if (parse[1]==a['Name']):
+                                                                scdb.remove(a)
+                                                        else:
+                                                                count = len(scdb)
 
 
 
