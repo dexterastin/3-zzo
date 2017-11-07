@@ -1,0 +1,80 @@
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QLineEdit, QToolButton
+from PyQt5.QtWidgets import QSizePolicy
+from PyQt5.QtWidgets import QLayout, QGridLayout, QPushButton
+
+class Button(QToolButton):
+    def __init__(self,text,cb):
+        super().__init__()
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self.setText(text)
+        self.clicked.connect(cb)
+
+    def sizeHint(self):
+        size = super(Button, self).sizeHint()
+        size.setHeight(size.height() + 20)
+        size.setWidth(max(size.width(), size.height()))
+        return size
+
+class Calculator(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        # Display Window
+        self.display = QLineEdit()
+        self.display.setReadOnly(True)
+        self.display.setAlignment(Qt.AlignRight)
+        self.display.setMaxLength(15)
+
+        # Layout
+        mainLayout = QGridLayout()
+        mainLayout.setSizeConstraint(QLayout.SetFixedSize)
+
+        mainLayout.addWidget(self.display, 0, 0, 1, 2)
+
+        numLayout = QGridLayout()
+        opLayout = QGridLayout()
+
+        mainLayout.addLayout(numLayout, 1, 0)
+
+        position = [(i,i2) for i in range(0,4) for i2 in range(0,3)]
+        names = ['7','8','9','4','5','6','1','2','3','0','.','=']
+        for position, name in zip(position,names):
+            if name =="":
+                continue
+            self.digitButton = Button(name,self.buttonClicked)
+            numLayout.addWidget(self.digitButton,*position)
+
+        position1 = [(i, i2) for i in range(0, 4) for i2 in range(0, 2)]
+        names1 = ['.','=','*','/','+','-','(',')','C']
+        for position1, name1 in zip(position1,names1):
+            if name1 =="":
+                continue
+            self.digitButton2 = Button(name1,self.buttonClicked)
+            opLayout.addWidget(self.digitButton2,*position1)
+
+        mainLayout.addLayout(numLayout, 1, 0)
+        mainLayout.addLayout(opLayout, 1, 1)
+        self.setLayout(mainLayout)
+        self.setWindowTitle("My Calculator")
+
+    def buttonClicked(self):
+        button = self.sender()
+
+        key = button.text()
+        if key == '=':
+            result = str(eval(self.display.text()))
+            self.display.setText(result)
+        elif key == 'C':
+            self.display.setText('')
+        else:
+            self.display.setText(self.display.text() + key)
+
+if __name__ == '__main__':
+    import sys
+
+    app = QApplication(sys.argv)
+    calc = Calculator()
+    calc.show()
+    sys.exit(app.exec_())
