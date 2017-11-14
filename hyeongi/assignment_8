@@ -137,3 +137,50 @@ if __name__ == '__main__':
     calc = Calculator()
     calc.show()
     sys.exit(app.exec_())
+
+
+
+------------------------------------------------------------------
+
+
+
+from math import factorial as fact
+
+
+def factorial(numStr):
+    try:
+        n = int(numStr)
+        r = str(fact(n))
+    except:
+        r = 'Error!'
+    return r
+
+def decToBin(numStr):
+    try:
+        n = int(numStr)
+        r = bin(n)[2:]
+    except:
+        r = 'Error!'
+    return r
+
+def binToDec(numStr):
+    try:
+        n = int(numStr, 2)
+        r = str(n)
+    except:
+        r = 'Error!'
+    return r
+
+def decToRoman(numStr):
+    return 'dec -> Roman'
+
+
+def cala(a,b):
+    if (a==0):
+        return factorial(b)
+    elif (a==1):
+        return decToBin(b)
+    elif(a==2):
+        return binToDec(b)
+    elif(a==3):
+        return decToBin(b)
