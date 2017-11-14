@@ -33,7 +33,7 @@ class Calculator(QWidget):
         
         # Digit Buttons
         self.digitButton = [x for x in range(0, 10)]
-        for x in range(10):
+        for x in self.digitButton:
             self.digitButton[x] = Button(str(x),self.buttonClicked)
 
         
