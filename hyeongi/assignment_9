@@ -1,0 +1,119 @@
+from math import factorial as fact
+
+
+def factorial(numStr):
+    try:
+        n = int(numStr)
+        r = str(fact(n))
+    except:
+        r = 'Error!'
+    return r
+
+def decToBin(numStr):
+    try:
+        n = int(numStr)
+        r = bin(n)[2:]
+    except:
+        r = 'Error!'
+    return r
+
+def binToDec(numStr):
+    try:
+        n = int(numStr, 2)
+        r = str(n)
+    except:
+        r = 'Error!'
+    return r
+
+
+
+
+def decToRoman(numStr):
+    romans = {1000: 'M', 900: 'CM', 500: 'D', 400: 'CD',100: 'C', 90: 'XC', 50: 'L', 40: 'XL',10:'X',9:'IX', 5:'V', 4: 'IV',1:'I'}
+    try:
+        n = int(numStr)
+        if (n >= 4000):
+            return 'Error!'
+        else:
+            t = str(n)
+            result = ""
+            for value in sorted(romans.keys(), reverse=True):
+                while n >= value:
+                    result += romans[value]
+                    n -=value
+            return result
+
+
+    except:
+        return 'Error!'
+#
+# def romanToDec(numStr):
+#     romans = {'M':1000 ,'CM': 900, 'D':500,'CD': 400,'C': 100,'XC': 90,  'L':50,  'XL':40,  'X':10,  'IX':9,
+#                'V':5,  'IV':4,  'I':1}
+#
+#     two_list = {"CM": 900, "CD": 400, "XC": 90, "XL": 40, "IX": 9, "IV": 4}
+#     not_roman = []
+#     result = 0
+#     count =0
+#
+#     while (True):
+#         if(count>=len(numStr)-1):
+#             break
+#         else:
+#             a = numStr[count:count+2]
+#             print(a[0])
+#             if(romans[a[0]]>=romans[a[1]]):
+#                 result = result + romans[a[0]]
+#                 count =count + 1
+#             else:
+#
+#                 result = result + cal_roman(a)
+#                 count = count + 2
+#     print(result)
+#     return result
+
+def romanToDec(numStr,):
+    values = {'M': 1000, 'D': 500, 'C': 100, 'L': 50,
+              'X': 10, 'V': 5, 'I': 1}
+    numbers = []
+    for char in numStr:
+
+        numbers.append(values[char])
+    total = 0
+    print(numbers)
+    for num1, num2 in zip(numbers, numbers[1:]):
+        print(num1)
+        if num1 >= num2:
+            total += num1
+        else:
+            total -= num1
+    return str(total + num2)
+
+
+
+
+def cal_roman(t):
+    two_list = {"CM": 900, "CD": 400, "XC": 90, "XL": 40, "IX": 9, "IV": 4}
+    return two_list[t]
+
+
+
+
+
+
+
+#
+#
+#
+# def cala(a,b):
+#     if (a==0):
+#         return factorial(b)
+#     elif (a==1):
+#         return decToBin(b)
+#     elif(a==2):
+#         return binToDec(b)
+#     elif(a==3):
+#         return decToBin(b)
+
+
+romanToDec("CDIX")
