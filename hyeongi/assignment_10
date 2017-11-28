@@ -11,8 +11,14 @@ class Guess():
 
     def guess(self, character):
         self.guessedChars.add(character)
+        check = 0
+        for i in self.secretWord:
+            if (character==i):
+                check = 1
+        if (check==0):
+            self.numTries +=1
+
         self.currentStatus = "".join([i if i in self.guessedChars else "_" for i in self.secretWord])
-        self.numTries += 1
         if not self.currentStatus.__contains__("_"):
             return True
 
@@ -81,5 +87,120 @@ if __name__ == '__main__':
     mywindow = MyWindow()
     mywindow.show()
     app.exec_()
+    
+    
+    --------------------------------------------------------------------------------------
+    
+    import os
+
+
+class Hangman:
+    text = [
+
+'''\
+  ____
+ |    |
+ |    o
+ |   /|\\
+ |    |
+ |   / \\
+_|_
+| |______
+| |
+|__________|\
+''',
+'''\
+  ____
+ |    |
+ |    o
+ |   /|\\
+ |    |
+ |   /
+_|_
+| |______
+| |
+|__________|\
+''',
+'''\
+  ____
+ |    |
+ |    o
+ |   /|\\
+ |    |
+ |
+_|_
+| |______
+| |
+|__________|\
+''',
+'''\
+  ____
+ |    |
+ |    o
+ |   /|
+ |    |
+ |
+_|_
+| |______
+| |
+|__________|\
+''',
+'''\
+  ____
+ |    |
+ |    o
+ |    |
+ |    |
+ |
+_|_
+| |______
+| |
+|__________|\
+''',
+'''\
+  ____
+ |    |
+ |    o
+ |    |
+ |    
+ |
+_|_
+| |______
+| |
+|__________|\
+''',
+'''\
+  ____
+ |    |
+ |    o
+ |
+ |
+ |
+_|_
+| |______
+| |
+|__________|\
+''',
+'''\
+  ____
+ |    |
+ |
+ |
+ |
+ |
+_|_
+| |______
+| |
+|__________|\
+''',
+
+    ]
+
+    def getLife(self):
+        return len(self.text) - 1
+
+    def get(self, life):
+        return self.text[life]
+
 
 
