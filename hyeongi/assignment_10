@@ -1,0 +1,85 @@
+class Guess():
+    def __init__(self, word):
+        self.secretWord = word
+        self.guessedChars = set()
+        self.currentStatus = "".join(["_" for i in self.secretWord])
+        self.numTries = 0
+
+    def display(self):
+        print("current:", self.currentStatus)
+        print("tries:", self.numTries)
+
+    def guess(self, character):
+        self.guessedChars.add(character)
+        self.currentStatus = "".join([i if i in self.guessedChars else "_" for i in self.secretWord])
+        self.numTries += 1
+        if not self.currentStatus.__contains__("_"):
+            return True
+
+
+--------------------------------------------------------------------------------------------------------
+
+from PyQt5.QtWidgets import *
+import sys
+from hangman import Hangman
+from guess import Guess
+from word import Word
+import os
+
+class MyWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('hangman')
+        self.setGeometry(300, 300, 650, 400)
+
+
+
+def gameMain():
+    word = Word('words.txt')
+    guess = Guess(word.randFromDB())
+    finished = False
+    hangman = Hangman()
+    maxTries = hangman.getLife()
+
+    while guess.numTries < maxTries:
+
+        display = hangman.get(maxTries - guess.numTries)
+
+        os.system("cls")
+        print(display)
+        guess.display()
+
+        guessedChar = input('Select a letter: ')
+
+        if len(guessedChar) != 1:
+            print('One character at a time!')
+            input("press any key")
+            continue
+
+        if guessedChar in guess.guessedChars:
+            print('You already guessed \"' + guessedChar + '\"')
+            input("press any key")
+            continue
+
+        finished = guess.guess(guessedChar)
+
+        if finished:
+            break
+
+    if finished:
+        print('Success')
+    else:
+        os.system("cls")
+        print(hangman.get(0))
+        print('word [' + guess.secretWord + ']')
+        print('guess [' + guess.currentStatus + ']')
+        print('Fail')
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    mywindow = MyWindow()
+    mywindow.show()
+    app.exec_()
+
+
