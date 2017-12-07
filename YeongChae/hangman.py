@@ -71,19 +71,6 @@ class Hangman:
    ____
   |    |
   |    o
-  |    |
-  |    
-  |
- _|_
-|   |______
-|          |
-|__________|\
-''',
-
-'''\
-   ____
-  |    |
-  |    o
   |
   |
   |
@@ -109,9 +96,17 @@ class Hangman:
     ]
 
 
-    def getLife(self):
-        return len(self.text) - 1
+    def __init__(self):
+        self.remainingLives = len(self.text) - 1
 
 
-    def get(self, life):
-        return self.text[life]
+    def getRemainingLives(self):
+        return self.remainingLives
+
+
+    def decreaseLife(self):
+        self.remainingLives -= 1
+
+
+    def currentShape(self):
+        return self.text[self.remainingLives]
