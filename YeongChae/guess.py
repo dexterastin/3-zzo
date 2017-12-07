@@ -10,12 +10,13 @@ class Guess:
 
     def guess(self, character):
     
-        self.guessedChars = self.guessedChars | {character}
+        self.guessedChars |= {character}
         if character not in self.secretWord:
             return False
 
         else:
             currentStatus = ''
+            matches = 0
             for c in self.secretWord:
                 if c in self.guessedChars:
                     currentStatus += c

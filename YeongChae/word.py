@@ -2,7 +2,7 @@ import random
 
 class Word:
 
-    def __init__(self, filename):
+    def __init__(self, filename, maxLength):
 
         self.words = []
         f = open(filename, 'r')
@@ -12,8 +12,9 @@ class Word:
         self.count = 0
         for line in lines:
             word = line.rstrip()
-            self.words.append(word)
-            self.count += 1
+            if len(word) <= maxLength:
+                self.words.append(word)
+                self.count += 1
 
         print('%d words in DB' % self.count)
 

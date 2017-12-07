@@ -66,18 +66,6 @@ class Hangman:
 |          |
 |__________|\
 ''',
-'''\
-   ____
-  |    |
-  |    o
-  |    |
-  |    
-  |
- _|_
-|   |______
-|          |
-|__________|\
-''',
 
 '''\
    ____
@@ -110,6 +98,10 @@ class Hangman:
 
     def __init__(self):
         self.remainingLives = len(self.text) - 1
+
+
+    def getRemainingLives(self):
+        return self.remainingLives
 
 
     def decreaseLife(self):
