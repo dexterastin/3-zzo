@@ -1,0 +1,335 @@
+# from hangman import Hangman
+# from guess import Guess
+# from word import Word
+#
+# from PyQt5.QtWidgets import *
+# from PyQt5.QtCore import *
+#
+# import sys
+#
+#
+#
+# class gui(QWidget):
+#     count = 7
+#
+#
+#
+#     def __init__(self):
+#         super().__init__()
+#
+#
+#         self.show1()
+#
+#
+#
+#     def show1(self):
+#
+#         self.in_edit = QLineEdit("",self)
+#         self.button = QPushButton("OK",self)
+#         self.current = QLabel("Current:  ",self)
+#         self.hangman1 = QTextEdit("hangman",self)
+#         self.start = QPushButton("START",self)
+#         self.used = QLabel("Used:   ",self)
+#         self.message = QLabel("Message : ",self)
+#
+#         vbox1 = QVBoxLayout()
+#         vbox1.addWidget(self.start)
+#         vbox1.addStretch(1)
+#
+#         vbox1.addWidget(self.current)
+#         vbox1.addStretch(1)
+#
+#         vbox1.addWidget(self.used)
+#         vbox1.addStretch(1)
+#
+#         vbox1.addWidget(self.message)
+#         vbox1.addWidget(self.in_edit)
+#         vbox1.addWidget(self.button)
+#
+#         vbox2 = QVBoxLayout()
+#
+#         vbox2.addWidget(self.hangman1)
+#
+#         hbox = QHBoxLayout()
+#
+#         hbox.addLayout(vbox2)
+#         hbox.addLayout(vbox1)
+#
+#         self.setLayout(hbox)
+#
+#         self.setWindowTitle("Hangman game")
+#
+#         self.setGeometry(300, 300, 600, 400)
+#
+#         self.start.clicked.connect(self.gameMain)
+#         self.button.clicked.connect(self.solve)
+#
+#
+#
+#
+#         self.show()
+#
+#
+#
+#
+#
+#     def gameMain(self):
+#         sender = self.sender()
+#         print(sender.text())
+#         self.count = 7
+#
+#         if (sender=="OK"):
+#             self.in_edit.setText("Ddddd")
+#
+#
+#         self.word = Word('words.txt')
+#         self.guess = Guess(self.word.randFromDB())
+#         self.hangman = Hangman()
+#
+#         self.display1()
+#
+#
+#     def display1(self):
+#
+#         # while hangman.remainingLives > 0:
+#         display = self.hangman.currentShape()
+#         # print(display)
+#         self.hangman1.setText(display)
+#
+#
+#         display = self.guess.displayCurrent()
+#         # print('Current: ' + display)
+#         self.current.setText('Current:  '  + display)
+#         display = self.guess.displayGuessed()
+#         # print('Already Used: ' + display)
+#         self.used.setText('Already Used: ' + display)
+#         # self.message.setText("Message : " + 'Select a letter:' )
+#
+#     def solve(self):
+#        # guessedChar = input('Select a letter: ')
+#         if self.guess.finished() == True:
+#             self.hangman1.setText("Message : " + 'You Success!' + '\n' + "Restart ? ")
+#             return
+#         else:
+#             pass
+#
+#         guessedChar = self.in_edit.text()
+#         print(guessedChar)
+#         self.display1()
+#
+#         if len(guessedChar) != 1:
+#             print('One character at a time!')
+#
+#             self.message.setText("Message : " + 'One character at a time!')
+#             self.display1()
+#         else:
+#             if guessedChar in self.guess.guessedChars:
+#                 print('You already guessed \"' + guessedChar + '\"')
+#
+#                 self.message.setText("Message : " + 'You already guessed \"' + guessedChar + '\"')
+#                 self.display1()
+#
+#             else:
+#                 success = self.guess.guess(guessedChar)
+#
+#                 if success == False:
+#                     self.count = self.count -1
+#                     if (self.count ==0):
+#                         self.hangman1.setText("Message : " + 'You failed!'  + "\n" + "Restart ? ")
+#                     else:
+#                         self.hangman.decreaseLife()
+#                         self.display1()
+#                 else:
+#                     if self.guess.finished() == True:
+#                         self.display1()
+#                         self.hangman1.setText("Message : " + 'You Success!' + '\n' + "Restart ? ")
+#
+#                         return
+#                     else:
+#                         pass
+#                     self.display1()
+#                     pass
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#                     # if self.guess.finished():
+#         #
+#     # if guess.finished() == True:
+#     #     print('**** ' + guess.displayCurrent() + ' ****')
+#     #     print('Success')
+#     # else:
+#     #     print(hangman.currentShape())
+#     #     print('word [' + guess.secretWord + ']')
+#     #     print('guess [' + guess.displayCurrent() + ']')
+#     #     print('Fail')
+#
+#
+#
+#
+#
+#
+#
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     gui = gui()
+#     sys.exit(app.exec_())
+#
+
+
+# -*- coding: utf-8 -*-
+
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QLayout, QGridLayout
+from PyQt5.QtWidgets import QTextEdit, QLineEdit, QToolButton
+
+from hangman import Hangman
+from guess import Guess
+from word import Word
+
+
+class HangmanGame(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        # Initialize word database
+        self.word = Word('words.txt')
+
+        # Hangman display window
+        self.hangmanWindow = QTextEdit()
+        self.hangmanWindow.setReadOnly(True)
+        self.hangmanWindow.setAlignment(Qt.AlignLeft)
+        font = self.hangmanWindow.font()
+        font.setFamily('Courier New')
+        self.hangmanWindow.setFont(font)
+
+        # Layout
+        hangmanLayout = QGridLayout()
+        hangmanLayout.addWidget(self.hangmanWindow, 0, 0)
+
+        # Status Layout creation
+        statusLayout = QGridLayout()
+
+        # Display widget for current status
+        self.currentWord = QLineEdit()
+        self.currentWord.setReadOnly(True)
+        self.currentWord.setAlignment(Qt.AlignCenter)
+        font = self.currentWord.font()
+        font.setPointSize(font.pointSize() + 8)
+        self.currentWord.setFont(font)
+        statusLayout.addWidget(self.currentWord, 0, 0, 1, 2)
+
+        # Display widget for already used characters
+        self.guessedChars = QLineEdit()
+        self.guessedChars.setReadOnly(True)
+        self.guessedChars.setAlignment(Qt.AlignLeft)
+        self.guessedChars.setMaxLength(1)
+        statusLayout.addWidget(self.guessedChars, 1, 0, 1, 2)
+
+        # Display widget for message output
+        self.message = QLineEdit()
+        self.message.setReadOnly(True)
+        self.message.setAlignment(Qt.AlignLeft)
+        self.message.setMaxLength(52)
+        statusLayout.addWidget(self.message, 2, 0, 1, 2)
+
+        # Input widget for user selected characters
+        self.charInput = QLineEdit()
+        self.charInput.setMaxLength(1)
+        statusLayout.addWidget(self.charInput, 3, 0)
+
+        # Button for submitting a character
+        self.guessButton = QToolButton()
+        self.guessButton.setText('Guess!')
+        self.guessButton.clicked.connect(self.guessClicked)
+        statusLayout.addWidget(self.guessButton, 3, 1)
+
+        # Button for a new game
+        self.newGameButton = QToolButton()
+        self.newGameButton.setText('New Game')
+        self.newGameButton.clicked.connect(self.startGame)
+        statusLayout.addWidget(self.newGameButton, 4, 0)
+
+        # Layout placement
+        mainLayout = QGridLayout()
+        mainLayout.setSizeConstraint(QLayout.SetFixedSize)
+        mainLayout.addLayout(hangmanLayout, 0, 0)
+        mainLayout.addLayout(statusLayout, 0, 1)
+
+        self.setLayout(mainLayout)
+
+        self.setWindowTitle('Hangman Game')
+
+        # Start a new game on application launch!
+        self.startGame()
+
+    def startGame(self):
+        self.hangman = Hangman()
+        self.guess = Guess(self.word.randFromDB())
+        self.gameOver = False
+
+        self.hangmanWindow.setPlaceholderText(self.hangman.currentShape())
+        self.currentWord.setText(self.guess.displayCurrent())
+        self.guessedChars.setText(self.guess.displayGuessed())
+        self.message.clear()
+
+    def guessClicked(self):
+        guessedChar = self.charInput.text()
+        self.charInput.clear()
+        self.message.clear()
+
+        if self.gameOver == True:
+            self.message.setText("Game Over")
+        # 메시지 출력하고 - message.setText() - 리턴
+        elif (len(guessedChar)!=1):
+            self.message.setText("1")
+        # 입력의 길이가 1 인지를 판단하고, 아닌 경우 메시지 출력, 리턴
+        elif guessedChar in self.guess.guessedChars:
+            self.message.setText("already used")
+        # 이미 사용한 글자인지를 판단하고, 아닌 경우 메시지 출력, 리턴
+
+        success = self.guess.guess(guessedChar)
+        if success == False:
+            self.hangman.decreaseLife()
+
+
+        # 남아 있는 목숨을 1 만큼 감소
+        # 메시지 출력
+            self.hangmanWindow.setPlaceholderText(self.hangman.currentShape())
+            self.currentWord.setText(self.guess.currentStatus)
+            self.guessedChars.setText(str(self.guess.guessedChars))
+        else:
+            self.hangmanWindow.setPlaceholderText(self.hangman.currentShape())
+            self.currentWord.setText(self.guess.currentStatus)
+            self.guessedChars.setText(str(self.guess.guessedChars))
+
+
+        # hangmanWindow 에 현재 hangman 상태 그림을 출력
+        # currentWord 에 현재까지 부분적으로 맞추어진 단어 상태를 출력
+        # guessedChars 에 지금까지 이용한 글자들의 집합을 출력
+
+        if self.guess.finished():
+            self.message.setText("Success!")
+            self.gameOver = True
+        # 메시지 ("Success!") 출력하고, self.gameOver 는 True 로
+        elif self.hangman.getRemainingLives() == 0:
+            self.message.setText("Fail!")
+            self.gameOver = True
+
+    # 메시지 ("Fail!" + 비밀 단어) 출력하고, self.gameOver 는 True 로
+
+
+if __name__ == '__main__':
+    import sys
+
+    app = QApplication(sys.argv)
+    game = HangmanGame()
+    game.show()
+    sys.exit(app.exec_())
